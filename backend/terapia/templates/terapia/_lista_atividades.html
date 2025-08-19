@@ -1,0 +1,16 @@
+<div id="lista-atividades" class="mt-4">
+  <h3>Atividades Registradas:</h3>
+  <ul class="list-group">
+    {% for atividade in atividades %}
+      <li class="list-group-item
+                 {% if atividade.resposta == 'P' %}list-group-item-success
+                 {% elif atividade.resposta == 'N' %}list-group-item-danger
+                 {% endif %}">
+        <strong>{{ atividade.tempo_registro|date:"H:i:s" }}:</strong> {{ atividade.descricao }}
+        - <em>{{ atividade.get_resposta_display }}</em>
+      </li>
+    {% empty %}
+      <li class="list-group-item">Nenhuma atividade registrada ainda.</li>
+    {% endfor %}
+  </ul>
+</div>

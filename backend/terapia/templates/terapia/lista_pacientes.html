@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4 text-center">Meus Pacientes</h2>
+
+  <div class="mb-3 text-end">
+    <a href="{% url 'adicionar_paciente' %}" class="btn btn-primary">
+      + Novo Paciente
+    </a>
+  </div>
+
+  {% if pacientes %}
+    <ul class="list-group">
+      {% for paciente in pacientes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ paciente.nome }}</strong><br>
+            <small>{{ paciente.data_nascimento|date:"d/m/Y" }}</small>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{% url 'iniciar_sessao' paciente.id %}" class="btn btn-outline-success btn-sm">
+              Iniciar Sessão
+            </a>
+            <a href="{% url 'historico_sessoes' paciente.id %}" class="btn btn-outline-secondary btn-sm">
+              Histórico
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+      Nenhum paciente encontrado.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

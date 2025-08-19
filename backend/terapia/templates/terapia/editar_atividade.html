@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="card shadow p-4">
+  <h2 class="mb-3">Editar Atividade</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Descrição</label>
+      {{ form.descricao|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Resposta</label>
+      {{ form.resposta|add_class:"form-select" }}
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

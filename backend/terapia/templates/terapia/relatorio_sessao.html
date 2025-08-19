@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatório da Sessão</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Relatório da Sessão</h1>
+    <p><strong>Paciente:</strong> {{ sessao.paciente.nome }}</p>
+    <p><strong>Terapeuta:</strong> {{ sessao.terapeuta.username }}</p>
+    <p><strong>Data Início:</strong> {{ sessao.data_inicio }}</p>
+    <p><strong>Status:</strong> {% if sessao.encerrada %}Encerrada{% else %}Aberta{% endif %}</p>
+
+    <h2>Atividades</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Resposta</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atividade in atividades %}
+            <tr>
+                <td>{{ atividade.descricao }}</td>
+                <td>{{ atividade.get_resposta_display }}</td>
+                <td>{{ atividade.data }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhuma atividade registrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

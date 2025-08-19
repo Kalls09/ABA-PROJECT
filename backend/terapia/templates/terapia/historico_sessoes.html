@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Histórico de Sessões de {{ paciente.nome }}</h2>
+
+  {% if sessoes %}
+    <table border="1" cellpadding="8">
+      <tr>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+      {% for sessao in sessoes %}
+        <tr>
+          <td>{{ sessao.data_inicio|date:"d/m/Y H:i" }}</td>
+          <td>
+            {% if sessao.encerrada %}
+              Encerrada
+            {% else %}
+              Em andamento
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'lista_atividades' sessao.id %}">Ver Atividades</a> |
+            {% if sessao.encerrada %}
+              <a href="#">Ver Relatório</a>
+            {% else %}
+              <a href="{% url 'encerrar_sessao' sessao.id %}">Encerrar</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>Nenhuma sessão registrada para este paciente.</p>
+  {% endif %}
+
+  <p><a href="{% url 'lista_pacientes' %}">← Voltar para lista de pacientes</a></p>
+{% endblock %}

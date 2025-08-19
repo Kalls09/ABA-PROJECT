@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="card shadow p-4">
+  <h2 class="mb-4">Cadastrar Paciente</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      {{ form.nome|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Data de Nascimento</label>
+      {{ form.data_nascimento|add_class:"form-control" }}
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

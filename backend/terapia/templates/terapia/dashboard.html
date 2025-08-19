@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Sessões Ativas</h2>
+
+  {% if sessoes_ativas %}
+    <ul class="list-group">
+      {% for sessao in sessoes_ativas %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ sessao.paciente.nome }}</strong><br>
+            <small>{{ sessao.data_inicio|date:"d/m/Y H:i" }}</small>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{% url 'registrar_atividades_sessao' sessao.id %}" class="btn btn-outline-primary btn-sm">
+              Continuar
+            </a>
+            <a href="{% url 'encerrar_sessao' sessao.id %}" class="btn btn-outline-danger btn-sm">
+              Encerrar
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info text-center">
+      Nenhuma sessão ativa no momento.
+    </div>
+  {% endif %}
+
+  <div class="mt-4 text-center">
+    <a href="{% url 'lista_pacientes' %}" class="btn btn-secondary">Ver todos os pacientes</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow p-4">
+  <h2 class="mb-3">Detalhes da Sessão</h2>
+  <p><strong>Paciente:</strong> {{ sessao.paciente.nome }}</p>
+  <p><strong>Data:</strong> {{ sessao.data|date:"d/m/Y H:i" }}</p>
+
+  <h4 class="mt-4">Atividades</h4>
+  {% if atividades %}
+    <ul class="list-group">
+      {% for atividade in atividades %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ atividade.descricao }} - 
+          <span class="badge bg-info">{{ atividade.get_resposta_display }}</span>
+          <a href="{% url 'editar_atividade_sessao' atividade.id %}" class="btn btn-sm btn-warning">Editar</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">Nenhuma atividade registrada nesta sessão.</p>
+  {% endif %}
+
+  <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

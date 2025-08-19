@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Atividades</h2>
+  <a href="{% url 'criar_atividade' %}">➕ Adicionar Atividade</a>
+  <ul>
+    {% for atividade in atividades %}
+      <li>{{ atividade.descricao }} ({{ atividade.resposta }})</li>
+    {% empty %}
+      <li>Nenhuma atividade registrada.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

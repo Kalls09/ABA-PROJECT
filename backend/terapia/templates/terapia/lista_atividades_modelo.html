@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Atividades Modelo</h2>
+
+  <a href="{% url 'form_atividade_modelo' %}">➕ Criar nova atividade modelo</a>
+
+  <ul>
+    {% for atividade in atividades %}
+      <li>
+        <strong>{{ atividade.descricao }}</strong> 
+        (Resposta esperada: {{ atividade.resposta_esperada }})
+      </li>
+    {% empty %}
+      <li>Nenhuma atividade modelo cadastrada ainda.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

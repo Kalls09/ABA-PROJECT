@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Sessões</h2>
+  <a href="{% url 'criar_sessao' %}">➕ Criar Sessão</a>
+  <ul>
+    {% for sessao in sessoes %}
+      <li>{{ sessao.data }} - {{ sessao.paciente.nome }}</li>
+    {% empty %}
+      <li>Nenhuma sessão registrada.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

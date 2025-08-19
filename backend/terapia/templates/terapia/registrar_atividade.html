@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+  <h2 class="mb-3">
+    Registrar Atividades<br>
+    <small class="text-muted">Sessão de {{ sessao.paciente.nome }}</small>
+  </h2>
+
+  <!-- Formulário para selecionar atividades da sessão -->
+  <form 
+    method="post" 
+    hx-post="{% url 'registrar_atividades_sessao' sessao.id %}" 
+    hx-target="#lista-atividades" 
+    hx-swap="outerHTML"
+    class="mt-3"
+  >
+    {% csrf_token %}
+
+    <!-- Seleção de atividades modelo -->
+    <div class="mb-3">
+      <label class="form-label">Atividades do dia</label>
+      {% for atividade in atividades_modelo %}
+        <div class="form-check">
+          <input 
+            type="checkbox" 
+            name="atividades_modelo" 
+            value="{{ atividade.id }}" 
+            class="form-check-input" 
+            id="atividade{{ atividade.id }}"
+          >
+          <label class="form-check-label" for="atividade{{ atividade.id }}">
+            {{ atividade.descricao }}
+          </label>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Detalhes específicos da sessão -->
+    <div class="mb-3">
+      <label for="detalhes" class="form-label">Detalhes da sessão</label>
+      <textarea name="detalhes" id="detalhes" class="form-control" rows="2"></textarea>
+    </div>
+
+    <!-- Resposta positiva/negativa -->
+    <div class="mb-3">
+      <label for="resposta" class="form-label">Resposta</label>
+      <select name="resposta" id="resposta" class="form-select">
+        <option value="positiva">Positiva</option>
+        <option value="negativa">Negativa</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Adicionar Atividade</button>
+
+    <!-- Botão HTMX para encerrar sessão -->
+    <a 
+      href="{% url 'encerrar_sessao' sessao.id %}" 
+      hx-post="{% url 'encerrar_sessao' sessao.id %}" 
+      hx-confirm="Tem certeza que deseja encerrar esta sessão?"
+      hx-target="#sessao-status" 
+      hx-swap="outerHTML"
+      class="btn btn-danger ms-2"
+    >
+      Encerrar Sessão
+    </a>
+  </form>
+
+  <!-- Lista de atividades da sessão (partial com cores) -->
+  <div id="lista-atividades">
+    {% include "terapia/_lista_atividades.html" %}
+  </div>
+
+  <!-- Status da sessão (partial que será atualizado pelo HTMX) -->
+  <div id="sessao-status" class="mt-3">
+    <strong>Status:</strong> {% if sessao.encerrada %}Encerrada{% else %}Aberta{% endif %}
+  </div>
+
+  <p class="mt-3">
+    <a href="{% url 'lista_pacientes' %}">← Voltar para a lista de pacientes</a>
+  </p>
+</div>
+{% endblock %}
