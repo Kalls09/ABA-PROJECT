@@ -189,6 +189,18 @@ def registrar_detalhes_atividade(request, atividade_sessao_id):
         {"form": form, "atividade": atividade_sessao},
     )
 
+@login_required
+def relatorio_sessao(request, sessao_id):
+    """
+    Exibe o relatório de uma sessão já encerrada.
+    """
+    sessao = get_object_or_404(Sessao, id=sessao_id)
+    atividades = AtividadeSessao.objects.filter(sessao=sessao).select_related("atividade_modelo")
+
+    return render(request, "terapia/relatorio_sessao.html", {
+        "sessao": sessao,
+        "atividades": atividades,
+    })
 
 @login_required
 def encerrar_sessao(request, sessao_id):
@@ -254,8 +266,16 @@ def lista_atividades_modelo(request):
     )
     return render(
         request, "terapia/lista_atividades_modelo.html", {"atividades": atividades}
-    )
+    ) 
 
+@login_required
+def lista_atividades(request, sessao_id):
+    sessao = get_object_or_404(Sessao, id=sessao_id)
+    atividades = Atividade.objects.filter(sessao=sessao)
+    return render(request, 'terapia/lista_atividades.html', {
+        'sessao': sessao,
+        'atividades': atividades
+    })
 
 @login_required
 def criar_atividade_modelo(request):
@@ -276,6 +296,7 @@ def criar_atividade_modelo(request):
 # Autenticação
 # =========================
 
+@login_required
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
@@ -349,4 +370,3 @@ class AtividadeSessaoViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
- 
